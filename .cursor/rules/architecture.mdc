@@ -1,0 +1,34 @@
+---
+alwaysApply: true
+---
+
+You are working inside a Turborepo monorepo.
+
+Stack:
+
+- Backend: Django 5 + DRF + SimpleJWT + drf-spectacular
+- Frontend: Next.js 16 App Router + TypeScript
+- Auth: httpOnly cookies only
+- Data fetching: Server Components first, native fetch
+- No localStorage for auth
+- OpenAPI types are source of truth
+
+Rules:
+
+- Prefer Server Components over Client Components.
+- Never access localStorage for authentication.
+- Authentication tokens must be read from httpOnly cookies using next/headers.
+- All API calls must go through a centralized server API helper.
+- Never duplicate API response types manually.
+- Types must come from @turbo-notes/types.
+- Follow clean architecture and separation of concerns.
+- No business logic inside React components.
+- Avoid unnecessary client-side state.
+
+Project Skills
+
+Use skills in `.cursor/skills/` for task-specific behavior:
+
+- Frontend: `next-best-practices`, `shadcn-ui`, `tailwind-design-system`, `vercel-react-best-practices`
+- Backend: `django-expert`, `django-patterns`, `django-security`, `django-tdd`
+- Testing: `test-driven-development`, `django-tdd`

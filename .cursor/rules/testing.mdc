@@ -1,0 +1,35 @@
+---
+alwaysApply: true
+---
+
+TDD Enforcement Rules
+
+We follow strict Test-Driven Development.
+
+For every new feature:
+
+1. Write tests first.
+2. Ensure tests fail.
+3. Implement minimal code to pass tests.
+4. Refactor safely.
+5. Ensure all tests pass.
+
+Do not generate implementation before tests.
+
+When asked to build a feature:
+
+- First generate the test file.
+- Ask for confirmation that tests should be implemented.
+- Then generate minimal implementation.
+
+Tests must:
+
+- Validate behavior, not implementation details.
+- Cover success and failure cases.
+- Be deterministic.
+- Avoid unnecessary mocks.
+- Avoid snapshot-only testing.
+
+No feature is complete without passing tests.
+No skipped tests.
+No TODO tests.

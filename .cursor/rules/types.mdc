@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+---
+
+Type Sharing Rules
+
+- OpenAPI schema is the single source of truth.
+- Never manually define API response interfaces in frontend.
+- Always import types from @turbo-notes/types.
+- If backend schema changes, regenerate types.
+- Do not modify generated types manually.
+- Use type inference from generated OpenAPI paths.

@@ -1,0 +1,30 @@
+---
+alwaysApply: true
+---
+
+Backend Rules (Django)
+
+- Use class-based views or DRF ViewSets.
+- Keep serializers explicit and fully typed.
+- Never disable authentication globally.
+- JWT auth must use SimpleJWT.
+- Schema must stay in sync with drf-spectacular.
+- Do not manually write response shapes that conflict with OpenAPI.
+- Keep business logic in services, not views.
+- Follow clean separation: models, services, views, serializers.
+- Keep settings environment-based.
+- Avoid global state.
+- All new endpoints must be reflected in OpenAPI schema.
+
+Backend TDD Rules
+
+- Write API tests before creating new views or serializers.
+- Use pytest + pytest-django.
+- Test at API level whenever possible.
+- Validate:
+  - Status codes
+  - Response payload
+  - Authentication
+  - Permissions
+- Only implement minimal logic to satisfy failing tests.
+- Refactor after green state.

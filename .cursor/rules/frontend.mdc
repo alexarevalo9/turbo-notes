@@ -1,0 +1,28 @@
+---
+alwaysApply: false
+---
+
+Frontend Rules (Next.js App Router)
+
+- Default to Server Components.
+- Use "use client" only when interactivity is required.
+- Use built-in fetch.
+- Use cache control explicitly (no-store or revalidate).
+- All authenticated requests must use cookies() from next/headers.
+- Never use localStorage for JWT.
+- Use Server Actions for mutations when possible.
+- Keep components small and composable.
+- Use descriptive names (no single-letter variables).
+- Ensure strict TypeScript typing.
+- Import API types from @turbo-notes/types.
+- Avoid unnecessary useEffect for data fetching.
+
+Frontend TDD Rules
+
+- Write component tests before implementing component logic.
+- Use Testing Library.
+- Test behavior from user perspective.
+- Avoid testing internal state.
+- For server actions:
+  - Test expected output and error states.
+- Keep implementation minimal until tests pass.
