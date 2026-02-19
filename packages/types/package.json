@@ -8,7 +8,8 @@
     "./client": "./client.ts"
   },
   "scripts": {
-    "generate": "openapi-typescript http://localhost:8000/api/schema/ -o index.ts"
+    "generate": "openapi-typescript http://localhost:8000/api/schema/ -o index.ts",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "openapi-fetch": "^0.17.0"
