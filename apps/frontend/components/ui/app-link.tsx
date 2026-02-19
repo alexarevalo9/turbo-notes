@@ -8,7 +8,7 @@ function AppLink({ className, ...props }: React.ComponentProps<typeof Link>) {
     <Link
       className={cn(
         'text-xs text-[#957139] underline underline-offset-2 hover:text-[#957139]/80 transition-colors',
-        className,
+        className
       )}
       {...props}
     />

@@ -18,50 +18,46 @@ vi.mock('next/link', () => ({
 }));
 
 const noopAction = vi.fn().mockResolvedValue(null);
-const errorAction = vi
-  .fn()
-  .mockResolvedValue({ error: 'Something went wrong' });
+const errorAction = vi.fn().mockResolvedValue({ error: 'Something went wrong' });
 
 describe('AuthForm', () => {
   it('renders email and password inputs in signup mode', () => {
-    render(<AuthForm mode='signup' action={noopAction} />);
+    render(<AuthForm mode="signup" action={noopAction} />);
     expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
   });
 
   it('renders email and password inputs in login mode', () => {
-    render(<AuthForm mode='login' action={noopAction} />);
+    render(<AuthForm mode="login" action={noopAction} />);
     expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
   });
 
   it("shows 'Sign Up' submit button in signup mode", () => {
-    render(<AuthForm mode='signup' action={noopAction} />);
+    render(<AuthForm mode="signup" action={noopAction} />);
     expect(screen.getByRole('button', { name: 'Sign Up' })).toBeInTheDocument();
   });
 
   it("shows 'Login' submit button in login mode", () => {
-    render(<AuthForm mode='login' action={noopAction} />);
+    render(<AuthForm mode="login" action={noopAction} />);
     expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
   });
 
   it("shows navigation link 'We're already friends!' in signup mode", () => {
-    render(<AuthForm mode='signup' action={noopAction} />);
-    expect(
-      screen.getByRole('link', { name: /we're already friends/i }),
-    ).toBeInTheDocument();
+    render(<AuthForm mode="signup" action={noopAction} />);
+    expect(screen.getByRole('link', { name: /we're already friends/i })).toBeInTheDocument();
   });
 
   it("shows navigation link 'Oops! I've never been here before' in login mode", () => {
-    render(<AuthForm mode='login' action={noopAction} />);
+    render(<AuthForm mode="login" action={noopAction} />);
     expect(
-      screen.getByRole('link', { name: /oops! i've never been here before/i }),
+      screen.getByRole('link', { name: /oops! i've never been here before/i })
     ).toBeInTheDocument();
   });
 
   it('toggles password visibility when eye icon is clicked', async () => {
     const user = userEvent.setup();
-    render(<AuthForm mode='signup' action={noopAction} />);
+    render(<AuthForm mode="signup" action={noopAction} />);
 
     const passwordInput = screen.getByPlaceholderText('Password');
     expect(passwordInput).toHaveAttribute('type', 'password');
@@ -79,12 +75,9 @@ describe('AuthForm', () => {
 
   it('displays error message when action returns an error', async () => {
     const user = userEvent.setup();
-    render(<AuthForm mode='signup' action={errorAction} />);
+    render(<AuthForm mode="signup" action={errorAction} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'test@example.com',
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'test@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'password123');
     await user.click(screen.getByRole('button', { name: 'Sign Up' }));
 

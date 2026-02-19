@@ -13,10 +13,7 @@ type ActionResult = { error: string } | { success: true };
 const ACCESS_COOKIE = 'access_token';
 const REFRESH_COOKIE = 'refresh_token';
 
-function setAuthCookies(
-  cookieStore: Awaited<ReturnType<typeof cookies>>,
-  tokens: TokenResponse,
-) {
+function setAuthCookies(cookieStore: Awaited<ReturnType<typeof cookies>>, tokens: TokenResponse) {
   cookieStore.set(ACCESS_COOKIE, tokens.access, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -35,7 +32,7 @@ function setAuthCookies(
 
 export async function register(
   _prev: ActionResult | null,
-  formData: FormData,
+  formData: FormData
 ): Promise<ActionResult> {
   const api = getApiClient();
 
@@ -47,9 +44,7 @@ export async function register(
   });
 
   if (response.status !== 201 || !data?.access) {
-    const err = error as
-      | { email?: string[]; password?: string[]; detail?: string }
-      | undefined;
+    const err = error as { email?: string[]; password?: string[]; detail?: string } | undefined;
     const message =
       err?.email?.[0] ??
       err?.password?.[0] ??
@@ -63,10 +58,7 @@ export async function register(
   redirect(routes.home);
 }
 
-export async function login(
-  _prev: ActionResult | null,
-  formData: FormData,
-): Promise<ActionResult> {
+export async function login(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   const api = getApiClient();
 
   const { data, error, response } = await api.POST('/api/auth/token/', {

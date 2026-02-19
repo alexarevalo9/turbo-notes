@@ -22,15 +22,13 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center gap-6'>
-      <h1 className='text-2xl font-semibold text-[#88642A]'>
-        You&apos;re in! 🎉
-      </h1>
-      <p className='text-[#957139]'>
-        Logged in as <span className='font-bold'>{data?.email}</span>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-6">
+      <h1 className="text-2xl font-semibold text-[#88642A]">You&apos;re in! 🎉</h1>
+      <p className="text-[#957139]">
+        Logged in as <span className="font-bold">{data?.email}</span>
       </p>
       <form action={logout}>
-        <Button type='submit' variant='app'>
+        <Button type="submit" variant="app">
           Log out
         </Button>
       </form>

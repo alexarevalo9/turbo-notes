@@ -33,43 +33,40 @@ export function AuthForm({ mode, action }: AuthFormProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='flex flex-col gap-3 w-full min-w-[385px]'
-    >
-      <div className='flex flex-col gap-1'>
-        <Label htmlFor='email' className='sr-only'>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full min-w-[385px]">
+      <div className="flex flex-col gap-1">
+        <Label htmlFor="email" className="sr-only">
           Email address
         </Label>
         <Input
-          id='email'
-          name='email'
-          type='email'
-          placeholder='Email address'
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email address"
           required
-          autoComplete='email'
+          autoComplete="email"
         />
       </div>
 
-      <div className='flex flex-col gap-1'>
-        <Label htmlFor='password' className='sr-only'>
+      <div className="flex flex-col gap-1">
+        <Label htmlFor="password" className="sr-only">
           Password
         </Label>
-        <div className='relative'>
+        <div className="relative">
           <Input
-            id='password'
-            name='password'
+            id="password"
+            name="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder='Password'
+            placeholder="Password"
             required
             autoComplete={isSignup ? 'new-password' : 'current-password'}
-            className='pr-10'
+            className="pr-10"
           />
           <button
-            type='button'
+            type="button"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
             onClick={() => setShowPassword((v) => !v)}
-            className='absolute right-3 top-1/2 -translate-y-1/2 text-[#957139]/70 hover:text-[#957139] transition-colors'
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#957139]/70 hover:text-[#957139] transition-colors"
           >
             {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
           </button>
@@ -77,20 +74,18 @@ export function AuthForm({ mode, action }: AuthFormProps) {
       </div>
 
       {state && 'error' in state && (
-        <p className='text-sm text-red-600 text-center'>{state.error}</p>
+        <p className="text-sm text-red-600 text-center">{state.error}</p>
       )}
 
-      <Button type='submit' variant='app' disabled={isPending} className='mt-2'>
+      <Button type="submit" variant="app" disabled={isPending} className="mt-2">
         {isPending ? 'Please wait…' : isSignup ? 'Sign Up' : 'Login'}
       </Button>
 
-      <div className='text-center mt-1'>
+      <div className="text-center mt-1">
         {isSignup ? (
           <AppLink href={routes.login}>We&apos;re already friends!</AppLink>
         ) : (
-          <AppLink href={routes.signup}>
-            Oops! I&apos;ve never been here before
-          </AppLink>
+          <AppLink href={routes.signup}>Oops! I&apos;ve never been here before</AppLink>
         )}
       </div>
     </form>
