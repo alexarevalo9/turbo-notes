@@ -4,9 +4,10 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
-import { getApiClient } from '@/lib/api';
 import { routes } from '@/lib/routes';
-import type { components } from '@turbo-notes/types';
+import { getApiBaseUrl } from '@/lib/api';
+
+const baseUrl = getApiBaseUrl();
 
 export async function createNote() {
   const cookieStore = await cookies();
@@ -16,13 +17,20 @@ export async function createNote() {
     redirect(routes.login);
   }
 
-  const api = getApiClient(token);
-  const { data, response } = await api.POST('/api/notes/', { body: undefined });
+  const res = await fetch(`${baseUrl}/api/notes/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({}),
+  });
 
-  if (response.status === 401) {
+  if (res.status === 401) {
     redirect(routes.login);
   }
 
+  const data = await res.json().catch(() => ({}));
   if (!data?.id) {
     throw new Error('Failed to create note');
   }
@@ -41,17 +49,20 @@ export async function updateNote(
     return { error: 'Unauthorized' };
   }
 
-  const api = getApiClient(token);
-  const { data, response } = await api.PATCH('/api/notes/{id}/', {
-    params: { path: { id: String(id) } },
-    body: updates as components['schemas']['PatchedNote'],
+  const res = await fetch(`${baseUrl}/api/notes/${id}/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(updates),
   });
 
-  if (response.status === 401) {
+  if (res.status === 401) {
     redirect(routes.login);
   }
 
-  if (!response.ok || !data) {
+  if (!res.ok) {
     return { error: 'Failed to update note' };
   }
 
@@ -69,16 +80,16 @@ export async function deleteNote(id: number) {
     redirect(routes.login);
   }
 
-  const api = getApiClient(token);
-  const { response } = await api.DELETE('/api/notes/{id}/', {
-    params: { path: { id: String(id) } },
+  const res = await fetch(`${baseUrl}/api/notes/${id}/`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
   });
 
-  if (response.status === 401) {
+  if (res.status === 401) {
     redirect(routes.login);
   }
 
-  if (!response.ok) {
+  if (!res.ok) {
     throw new Error('Failed to delete note');
   }
 
