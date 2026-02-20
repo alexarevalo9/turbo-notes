@@ -12,10 +12,7 @@ export function getApiClient(token?: string) {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    bodySerializer: (body) =>
-      qs.stringify(body, {
-        encodeValuesOnly: true,
-      }),
+    bodySerializer: JSON.stringify,
     querySerializer(params) {
       return qs.stringify(params, {
         encodeValuesOnly: true,
