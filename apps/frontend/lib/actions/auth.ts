@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { getApiClient } from '@/lib/api';
+import { getApiBaseUrl } from '@/lib/api';
 import { routes } from '@/lib/routes';
 import type { components } from '@turbo-notes/types';
 
@@ -51,14 +51,17 @@ export async function register(
     return { error: 'Email and password are required.' };
   }
 
-  const api = getApiClient();
-
-  const { data, error, response } = await api.POST('/api/auth/register/', {
-    body: { email, password },
+  const baseUrl = getApiBaseUrl();
+  const res = await fetch(`${baseUrl}/api/auth/register/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
   });
 
-  if (response.status !== 201 || !data?.access) {
-    const err = error as { email?: string[]; password?: string[]; detail?: string } | undefined;
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok || !data?.access) {
+    const err = data as { email?: string[]; password?: string[]; detail?: string };
     const message =
       err?.email?.[0] ??
       err?.password?.[0] ??
@@ -68,7 +71,7 @@ export async function register(
   }
 
   const cookieStore = await cookies();
-  setAuthCookies(cookieStore, data);
+  setAuthCookies(cookieStore, { access: data.access, refresh: data.refresh });
   redirect(routes.home);
 }
 
@@ -80,14 +83,17 @@ export async function login(_prev: ActionResult | null, formData: FormData): Pro
     return { error: 'Email and password are required.' };
   }
 
-  const api = getApiClient();
-
-  const { data, error, response } = await api.POST('/api/auth/token/', {
-    body: { email, password } as components['schemas']['TokenObtainPair'],
+  const baseUrl = getApiBaseUrl();
+  const res = await fetch(`${baseUrl}/api/auth/token/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
   });
 
-  if (response.status !== 200 || !data?.access) {
-    const err = error as { detail?: string } | undefined;
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok || !data?.access) {
+    const err = data as { detail?: string };
     const message = err?.detail ?? 'Invalid email or password.';
     return { error: message };
   }
