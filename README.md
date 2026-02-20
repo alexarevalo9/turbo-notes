@@ -2,6 +2,8 @@
 
 A full-stack note-taking app built with a **Turborepo** monorepo: **Next.js** frontend and **Django** backend, with shared TypeScript types generated from the API schema.
 
+**Live app:** [https://turbo-notes-frontend-nine.vercel.app/](https://turbo-notes-frontend-nine.vercel.app/) (frontend on Vercel, API on Railway).
+
 ---
 
 ## Table of contents
