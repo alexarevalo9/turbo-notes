@@ -30,17 +30,31 @@ function setAuthCookies(cookieStore: Awaited<ReturnType<typeof cookies>>, tokens
   });
 }
 
+function getFormStr(formData: FormData, key: string): string {
+  const direct = formData.get(key);
+  if (direct != null && direct !== '') return direct.toString();
+  const suffix = `_${key}`;
+  for (const [k, v] of formData.entries()) {
+    if (typeof v === 'string' && (k === key || k.endsWith(suffix))) return v;
+  }
+  return '';
+}
+
 export async function register(
   _prev: ActionResult | null,
   formData: FormData
 ): Promise<ActionResult> {
+  const email = getFormStr(formData, 'email').trim();
+  const password = getFormStr(formData, 'password');
+
+  if (!email || !password) {
+    return { error: 'Email and password are required.' };
+  }
+
   const api = getApiClient();
 
   const { data, error, response } = await api.POST('/api/auth/register/', {
-    body: {
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
-    },
+    body: { email, password },
   });
 
   if (response.status !== 201 || !data?.access) {
@@ -59,13 +73,17 @@ export async function register(
 }
 
 export async function login(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const email = getFormStr(formData, 'email').trim();
+  const password = getFormStr(formData, 'password');
+
+  if (!email || !password) {
+    return { error: 'Email and password are required.' };
+  }
+
   const api = getApiClient();
 
   const { data, error, response } = await api.POST('/api/auth/token/', {
-    body: {
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
-    } as components['schemas']['TokenObtainPair'],
+    body: { email, password } as components['schemas']['TokenObtainPair'],
   });
 
   if (response.status !== 200 || !data?.access) {

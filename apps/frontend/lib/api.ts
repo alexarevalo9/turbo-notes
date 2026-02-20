@@ -6,6 +6,8 @@ export function getApiClient(token?: string) {
   });
 
   if (token) {
+    //print url to console
+    console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
     client.use({
       onRequest({ request }) {
         request.headers.set('Authorization', `Bearer ${token}`);

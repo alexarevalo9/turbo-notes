@@ -1,5 +1,8 @@
+import logging
+
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, permissions, status
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -8,6 +11,8 @@ from accounts.serializers import (
     TokenResponseSerializer,
     UserSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @extend_schema(
@@ -20,7 +25,13 @@ class RegisterView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid():
+            logger.warning(
+                "Register validation failed: data=%s errors=%s",
+                dict(request.data),
+                serializer.errors,
+            )
+            raise ValidationError(serializer.errors)
         user = serializer.save()
         return Response(
             serializer.to_representation(user), status=status.HTTP_201_CREATED
