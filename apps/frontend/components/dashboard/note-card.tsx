@@ -37,8 +37,8 @@ export function NoteCard({ note }: NoteCardProps) {
         border: `3px solid ${categoryColor}`,
       }}
     >
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium text-[#55413A]">{formattedDate}</span>
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-bold text-[#55413A]">{formattedDate}</span>
         {note.category && (
           <span className="flex items-center gap-1.5 text-xs font-medium text-[#55413A]">
             {note.category.name}
@@ -46,7 +46,7 @@ export function NoteCard({ note }: NoteCardProps) {
         )}
       </div>
 
-      <h3 className="font-(family-name:--font-inria-serif) font-bold text-[#55413A] text-2xl leading-snug line-clamp-2">
+      <h3 className="font-(family-name:--font-inria-serif) font-bold text-[#55413A] text-2xl leading-snug wrap-break-word">
         {note.title || 'Note Title'}
       </h3>
 

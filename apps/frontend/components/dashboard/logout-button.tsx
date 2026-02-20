@@ -21,7 +21,7 @@ export function LogoutButton() {
       disabled={isPending}
       variant="ghost"
       size="default"
-      className="justify-start text-[#55413A] hover:bg-[#EDE3D6]/60 w-full"
+      className="hover:cursor-pointer justify-start text-[#55413A] hover:bg-[#EDE3D6]/60 w-full"
     >
       <LogOut />
       Logout

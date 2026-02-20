@@ -57,4 +57,11 @@ class NoteViewSet(
         return qs
 
     def perform_create(self, serializer: Any) -> None:
-        serializer.save(user=self.request.user)
+        instance = serializer.save(user=self.request.user)
+        if instance.category_id is None:
+            default = Category.objects.filter(
+                user=self.request.user, name='Random Thoughts'
+            ).first()
+            if default:
+                instance.category = default
+                instance.save(update_fields=['category'])

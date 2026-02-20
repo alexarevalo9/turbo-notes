@@ -16,7 +16,13 @@ export function NewNoteButton() {
   }
 
   return (
-    <Button onClick={handleClick} disabled={isPending} variant="app" size="default">
+    <Button
+      onClick={handleClick}
+      disabled={isPending}
+      variant="app"
+      size="default"
+      className="hover:cursor-pointer"
+    >
       <Plus className="size-6" />
       New Note
     </Button>
