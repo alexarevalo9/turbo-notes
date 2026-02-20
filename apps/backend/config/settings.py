@@ -1,6 +1,8 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+
+import dj_database_url  # type: ignore
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,7 +14,9 @@ SECRET_KEY = os.getenv(
     "django-insecure-dev-fallback-key-change-in-production",
 )
 DEBUG = os.getenv("DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = [
+    h.strip() for h in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -60,12 +64,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if os.getenv("DATABASE_URL"):
+    DATABASES = {
+        "default": dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -92,10 +104,9 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# CORS
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+# CORS: comma-separated origins, e.g. https://your-app.vercel.app,https://www.yourdomain.com
+_cors_origins = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000")
+CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(",") if o.strip()]
 
 # Django REST Framework
 REST_FRAMEWORK = {
