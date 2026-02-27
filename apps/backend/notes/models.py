@@ -26,7 +26,7 @@ class Category(models.Model):
 
 class Note(models.Model):
     title: models.CharField[str, str] = models.CharField(
-        max_length=255, default="Note  Title"
+        max_length=255, default="Note Title"
     )
     content: models.TextField[str, str] = models.TextField(blank=True, default="")
     category: models.ForeignKey[Category | None, Category | None] = models.ForeignKey(
