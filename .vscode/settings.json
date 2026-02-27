@@ -4,5 +4,9 @@
       "mode": "auto"
     }
   ],
+  "[python]": {
+    "editor.formatOnSave": false
+  },
+  "files.autoSave": "off",
   "css.lint.unknownAtRules": "ignore"
 }
